@@ -1,0 +1,59 @@
+1.基于udp套接字的服务端--->面向无连接(无连接过程)
+  <图片演示> socket-->bind-->recvfrom-->sendto
+   1.创建数据包套接字
+    sockfd=socket(AF_INET,SOCK_DGRAM)
+
+   2.绑定地址
+    sockfd.bind(addr)
+
+   3.消息的收发
+    data,addr=sockfd,recvfrom(buffersize)
+     功能:接收UDP消息
+     参数：每次最多接收多大的消息
+     返回值；data 接受到的数据
+             addr 消息发送端的地址
+      *一次接收一个数据报，如果数据报大小大于buffersize则会
+      丢失部分消息
+
+    sockfd.sendto(data,addr)
+     功能：发送udp消息
+     参数：data 发送的消息 bytes格式
+           addr 目标地址
+     返回值：发送的字节数
+
+   4.关闭套接字
+     sockfd.close()
+2.udp客户端
+  1.创建套接字
+    socket(AF_INET,SOCK_DGRAM)
+  2.消息收发
+   recvfrom/sendto
+  3.关闭套接字
+   sockfd.close()
+
+  cookie
+  1. sys.argv 属性
+     功能：获取命令行参数，得到一个列表
+     命令本身是argv[0]
+     后面参数从argv[1]开始，默认以空格分隔
+     使用引号引起来的内容算作一个整体
+     命令行参数都以字符串放入列表
+  2.再程序的第一行加
+   #!/usr/bin/env python3
+   添加程序的执行权限
+   chmod 755 file.py
+   修改后即可通过./file.py 运行程序
+
+3. tcp套接字编程和udp套接字编程区别
+ 1.流式套接字使用字节流的方式传输，数据报套接字以数据报形式传输数据
+ 2.tcp会有粘包现象，udp有消息边界不会形成粘包
+ 3.tcp可以保章数据传输完整性，udp则不保证
+ 4.tcp需要进行listen accept操作，udp不需要
+ 5.tcp收发消息使用新的套接字，recv send。 udp使用recvfrom,
+   sendto
+
+  补充函数
+   sendall(data)
+   功能：发送tcp消息
+   参数: 要发送的内容，bytes格式
+   返回值:成功返回None 失败产生异常
